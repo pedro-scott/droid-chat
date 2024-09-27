@@ -1,4 +1,4 @@
-package com.github.pedroscott.droidchat.ui.theme
+package com.github.pedroscott.droidchat.presentation.theme
 
 import android.app.Activity
 import android.os.Build

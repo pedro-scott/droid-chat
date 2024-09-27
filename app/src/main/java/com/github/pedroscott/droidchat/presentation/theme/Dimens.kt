@@ -1,4 +1,4 @@
-package com.github.pedroscott.droidchat.ui.theme
+package com.github.pedroscott.droidchat.presentation.theme
 
 import androidx.compose.ui.unit.dp
 
