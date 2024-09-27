@@ -17,37 +17,37 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Turquoise80,
+    primary = ChatColors.Turquoise80,
     onPrimary = Color.White,
-    primaryContainer = Turquoise30,
-    onPrimaryContainer = Turqouise90,
-    secondary = Green80,
-    onSecondary = Green20,
-    tertiary = Wildfire80,
-    onTertiary = Wildfire20,
-    surface = Neutral10,
-    onSurface = Neutral90,
-    onSurfaceVariant = Neutral60,
+    primaryContainer = ChatColors.Turquoise30,
+    onPrimaryContainer = ChatColors.Turqouise90,
+    secondary = ChatColors.Green80,
+    onSecondary = ChatColors.Green20,
+    tertiary = ChatColors.Wildfire80,
+    onTertiary = ChatColors.Wildfire20,
+    surface = ChatColors.Neutral10,
+    onSurface = ChatColors.Neutral90,
+    onSurfaceVariant = ChatColors.Neutral60,
     inverseSurface = Color.White,
     inverseOnSurface = Color.Black,
-    error = ColorError,
+    error = ChatColors.ColorError
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Turquoise80,
+    primary = ChatColors.Turquoise80,
     onPrimary = Color.White,
-    primaryContainer = Turqouise90,
-    onPrimaryContainer = Turqouise10,
-    secondary = Green40,
+    primaryContainer = ChatColors.Turqouise90,
+    onPrimaryContainer = ChatColors.Turqouise10,
+    secondary = ChatColors.Green40,
     onSecondary = Color.Black,
-    tertiary = Wildfire90,
+    tertiary = ChatColors.Wildfire90,
     onTertiary = Color.Black,
-    surface = Surface,
-    onSurface = Neutral10,
-    onSurfaceVariant = Neutral60,
+    surface = ChatColors.Surface,
+    onSurface = ChatColors.Neutral10,
+    onSurfaceVariant = ChatColors.Neutral60,
     inverseSurface = Color.Black,
     inverseOnSurface = Color.White,
-    error = ColorError,
+    error = ChatColors.ColorError
 )
 
 @Composable
