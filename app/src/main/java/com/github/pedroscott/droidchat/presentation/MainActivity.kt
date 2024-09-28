@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.github.pedroscott.droidchat.presentation.navigation.ChatNavHost
 import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

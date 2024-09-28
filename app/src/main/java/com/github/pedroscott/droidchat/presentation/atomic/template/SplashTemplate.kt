@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.pedroscott.droidchat.R
+import com.github.pedroscott.droidchat.presentation.atomic.atom.AppLogoAtom
 import com.github.pedroscott.droidchat.presentation.atomic.atom.PaddingAtom
 import com.github.pedroscott.droidchat.presentation.atomic.molecule.IconAndTextMolecule
 import com.github.pedroscott.droidchat.presentation.theme.ChatColors
@@ -29,10 +30,7 @@ fun SplashTemplate() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = null
-        )
+        AppLogoAtom()
         PaddingAtom(height = 77.dp)
         IconAndTextMolecule(
             iconRes = R.drawable.ic_safety,
