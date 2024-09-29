@@ -10,15 +10,15 @@ import com.github.pedroscott.droidchat.presentation.navigation.ChatRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SplashRoute : ChatRoute<SplashAction> {
+object SplashRoute : ChatRoute<SplashNavAction> {
     @Composable
-    override fun Page(handleAction: (SplashAction) -> Unit) {
+    override fun Page(handleNavAction: (SplashNavAction) -> Unit) {
         val viewModel: SplashViewModel = hiltViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        LaunchedEffect(uiState.action) {
-            uiState.action?.let {
-                handleAction(it)
+        LaunchedEffect(uiState.navAction) {
+            uiState.navAction?.let {
+                handleNavAction(it)
             }
         }
 

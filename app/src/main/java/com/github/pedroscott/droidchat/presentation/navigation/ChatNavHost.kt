@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.github.pedroscott.droidchat.presentation.page.signin.SignInRoute
-import com.github.pedroscott.droidchat.presentation.page.splash.SplashAction
+import com.github.pedroscott.droidchat.presentation.page.splash.SplashNavAction
 import com.github.pedroscott.droidchat.presentation.page.splash.SplashRoute
 import com.github.pedroscott.droidchat.util.extension.composable
 import com.github.pedroscott.droidchat.util.extension.navigateAndPopUp
@@ -21,9 +21,9 @@ fun ChatNavHost(
     ) {
         composable<SplashRoute> {
             Page(
-                handleAction = { action ->
+                handleNavAction = { action ->
                     when (action) {
-                        is SplashAction.SignIn -> navController.navigateAndPopUp(
+                        is SplashNavAction.SignIn -> navController.navigateAndPopUp(
                             route = SignInRoute,
                             popUp = SplashRoute
                         )
@@ -33,7 +33,7 @@ fun ChatNavHost(
         }
 
         composable<SignInRoute> {
-            Page(handleAction = {})
+            Page(handleNavAction = {})
         }
     }
 }

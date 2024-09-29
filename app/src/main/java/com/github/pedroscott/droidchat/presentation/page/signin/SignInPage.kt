@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 object SignInRoute : ChatRoute<Nothing> {
     @Composable
-    override fun Page(handleAction: (Nothing) -> Unit) {
+    override fun Page(handleNavAction: (Nothing) -> Unit) {
         // TODO
         Box(
             modifier = Modifier
