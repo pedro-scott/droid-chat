@@ -14,13 +14,14 @@ import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
 fun IconAtom(
     painter: Painter,
     modifier: Modifier = Modifier,
-    contentDescription: String? = null
+    contentDescription: String? = null,
+    tint: Color? = null
 ) {
     Icon(
         painter = painter,
         contentDescription = contentDescription,
         modifier = modifier,
-        tint = Color.Unspecified
+        tint = tint ?: Color.Unspecified
     )
 }
 
