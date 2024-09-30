@@ -24,6 +24,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.github.pedroscott.droidchat.R
 import com.github.pedroscott.droidchat.presentation.atomic.atom.IconAtom
 import com.github.pedroscott.droidchat.presentation.atomic.atom.PaddingAtom
@@ -112,15 +114,46 @@ fun PrimaryFieldMolecule(
     }
 }
 
+private class DefaultPrimaryFieldParameterProvider : PreviewParameterProvider<String?> {
+    override val values = sequenceOf(null, "E-mail inválido")
+}
+
 @Preview
 @Composable
-private fun Preview() {
+private fun DefaultPreview(
+    @PreviewParameter(
+        DefaultPrimaryFieldParameterProvider::class
+    ) errorMessage: String?
+) {
     DroidChatTheme {
         PrimaryFieldMolecule(
-            value = "email@email.com",
+            value = "",
             onValueChange = {},
             placeholder = "E-mail",
-            leadingIcon = R.drawable.ic_envelope
+            leadingIcon = R.drawable.ic_envelope,
+            errorMessage = errorMessage
+        )
+    }
+}
+
+private class PasswordPrimaryFieldParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf("", "12345")
+}
+
+@Preview
+@Composable
+private fun PasswordPreview(
+    @PreviewParameter(
+        PasswordPrimaryFieldParameterProvider::class
+    ) value: String
+) {
+    DroidChatTheme {
+        PrimaryFieldMolecule(
+            value = value,
+            onValueChange = {},
+            placeholder = "Senha",
+            leadingIcon = R.drawable.ic_lock,
+            keyboardType = KeyboardType.Password
         )
     }
 }

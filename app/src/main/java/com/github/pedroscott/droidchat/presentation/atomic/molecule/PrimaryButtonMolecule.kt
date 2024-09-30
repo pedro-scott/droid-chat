@@ -1,6 +1,7 @@
 package com.github.pedroscott.droidchat.presentation.atomic.molecule
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -24,31 +26,36 @@ fun PrimaryButtonMolecule(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
+    isEnabled: Boolean = true
 ) {
     Button(
         onClick = { if (!isLoading) onClick() },
-        modifier = modifier
-            .height(64.dp)
-            .animateContentSize(),
+        modifier = modifier.height(64.dp),
+        enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
         )
     ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(30.dp)
-                    .aspectRatio(1f),
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-        } else {
-            Text(
-                text = text,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
+        Box(modifier = Modifier.animateContentSize()) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .aspectRatio(1f),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text(
+                    text = text,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
@@ -59,7 +66,7 @@ private class PrimaryButtonParameterProvider : PreviewParameterProvider<Boolean>
 
 @Preview
 @Composable
-private fun Preview(
+private fun EnabledPreview(
     @PreviewParameter(
         PrimaryButtonParameterProvider::class
     ) isLoading: Boolean
@@ -69,6 +76,23 @@ private fun Preview(
             text = "Entrar",
             onClick = {},
             isLoading = isLoading
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DisabledPreview(
+    @PreviewParameter(
+        PrimaryButtonParameterProvider::class
+    ) isLoading: Boolean
+) {
+    DroidChatTheme {
+        PrimaryButtonMolecule(
+            text = "Entrar",
+            onClick = {},
+            isLoading = isLoading,
+            isEnabled = false
         )
     }
 }
