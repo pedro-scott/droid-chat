@@ -54,13 +54,15 @@ fun PrimaryFieldMolecule(
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = modifier.onFocusChanged {
-                if (!isInitialFocus) {
-                    onFocusChange(it.isFocused)
-                } else {
-                    isInitialFocus = false
-                }
-            },
+            modifier = modifier
+                .fillMaxWidth()
+                .onFocusChanged {
+                    if (!isInitialFocus) {
+                        onFocusChange(it.isFocused)
+                    } else {
+                        isInitialFocus = false
+                    }
+                },
             placeholder = {
                 placeholder?.let {
                     Text(text = it)
@@ -117,7 +119,6 @@ private fun Preview() {
         PrimaryFieldMolecule(
             value = "email@email.com",
             onValueChange = {},
-            modifier = Modifier.fillMaxWidth(),
             placeholder = "E-mail",
             leadingIcon = R.drawable.ic_envelope
         )
