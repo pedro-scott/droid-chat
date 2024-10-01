@@ -20,4 +20,8 @@ class SplashViewModel @Inject constructor() : ChatViewModel<SplashUiState>(
             updateUiState { copy(navAction = SplashNavAction.SignIn) }
         }
     }
+
+    fun clearNavAction() {
+        updateUiState { copy(navAction = null) }
+    }
 }

@@ -19,8 +19,7 @@
     <string name="feature_login_email">E-mail</string>
     <string name="feature_login_password">Senha</string>
     <string name="feature_login_button">Entrar</string>
-    <string name="feature_login_no_account">Não possui uma conta?</string>
-    <string name="feature_login_register">Cadastre-se aqui</string>
+    <string name="feature_login_no_account"><![CDATA[Não possui uma conta? <font color="#00BCCE"><u>Cadastre-se aqui</u></font>]]></string>
 
     <string name="feature_sign_up_change_profile_photo">Alterar foto de perfil</string>
     <string name="feature_sign_up_first_name">Primeiro nome</string>

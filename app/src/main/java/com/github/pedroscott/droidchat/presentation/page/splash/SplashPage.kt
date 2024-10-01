@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 object SplashRoute : ChatRoute<SplashNavAction> {
+
     @Composable
     override fun Page(handleNavAction: (SplashNavAction) -> Unit) {
         val viewModel: SplashViewModel = hiltViewModel()
@@ -19,6 +20,7 @@ object SplashRoute : ChatRoute<SplashNavAction> {
         LaunchedEffect(uiState.navAction) {
             uiState.navAction?.let {
                 handleNavAction(it)
+                viewModel.clearNavAction()
             }
         }
 
