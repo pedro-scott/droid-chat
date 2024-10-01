@@ -33,7 +33,6 @@ fun SignInFieldsOrganism(
             onFocusChange = onEmailFocusChange,
             placeholder = stringResource(id = R.string.feature_login_email),
             keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Next,
             leadingIcon = R.drawable.ic_envelope,
             errorMessage = emailError
         )
