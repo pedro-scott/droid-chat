@@ -23,50 +23,51 @@ object HtmlParser {
             append(spanned.toString())
             addSpanStyles<ForegroundColorSpan>(
                 spanned = spanned,
-                style = { span ->
-                    SpanStyle(color = Color((span as ForegroundColorSpan).foregroundColor))
-                }
+                style = { getSpanStyle() }
             )
             addSpanStyles<StyleSpan>(
                 spanned = spanned,
-                style = { span ->
-                    when ((span as StyleSpan).style) {
-                        Typeface.BOLD -> FontWeight.Bold to null
-                        Typeface.ITALIC -> null to FontStyle.Italic
-                        Typeface.BOLD_ITALIC -> FontWeight.Bold to FontStyle.Italic
-                        else -> null to null
-                    }.let { (weight, style) ->
-                        SpanStyle(
-                            fontWeight = weight,
-                            fontStyle = style
-                        )
-                    }
-                }
+                style = { getSpanStyle() }
             )
             addSpanStyles<UnderlineSpan>(
                 spanned = spanned,
-                style = {
-                    SpanStyle(textDecoration = TextDecoration.Underline)
-                }
+                style = { getSpanStyle() }
             )
             addSpanStyles<StrikethroughSpan>(
                 spanned = spanned,
-                style = {
-                    SpanStyle(textDecoration = TextDecoration.LineThrough)
-                }
+                style = { getSpanStyle() }
             )
         }
 
     private inline fun <reified T : ParcelableSpan> AnnotatedString.Builder.addSpanStyles(
         spanned: Spanned,
-        style: (ParcelableSpan) -> SpanStyle
+        style: T.() -> SpanStyle
     ) {
         spanned.getSpans<T>().forEach { span ->
             addStyle(
-                style = style(span),
+                style = span.style(),
                 start = spanned.getSpanStart(span),
                 end = spanned.getSpanEnd(span)
             )
         }
     }
+
+    private fun ForegroundColorSpan.getSpanStyle() = SpanStyle(color = Color(foregroundColor))
+
+    private fun StyleSpan.getSpanStyle() =
+        when (style) {
+            Typeface.BOLD -> FontWeight.Bold to null
+            Typeface.ITALIC -> null to FontStyle.Italic
+            Typeface.BOLD_ITALIC -> FontWeight.Bold to FontStyle.Italic
+            else -> null to null
+        }.let { (weight, style) ->
+            SpanStyle(
+                fontWeight = weight,
+                fontStyle = style
+            )
+        }
+
+    private fun UnderlineSpan.getSpanStyle() = SpanStyle(textDecoration = TextDecoration.Underline)
+
+    private fun StrikethroughSpan.getSpanStyle() = SpanStyle(textDecoration = TextDecoration.LineThrough)
 }
