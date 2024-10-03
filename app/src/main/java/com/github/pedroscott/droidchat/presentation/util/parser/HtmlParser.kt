@@ -1,4 +1,4 @@
-package com.github.pedroscott.droidchat.util.parser
+package com.github.pedroscott.droidchat.presentation.util.parser
 
 import android.graphics.Typeface
 import android.text.ParcelableSpan

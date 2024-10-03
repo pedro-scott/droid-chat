@@ -1,8 +1,8 @@
-package com.github.pedroscott.droidchat.util.extension
+package com.github.pedroscott.droidchat.presentation.util.extension
 
 import android.text.Html
 import androidx.compose.ui.text.AnnotatedString
-import com.github.pedroscott.droidchat.util.parser.HtmlParser
+import com.github.pedroscott.droidchat.presentation.util.parser.HtmlParser
 
 fun String.parseHtml(): AnnotatedString =
     HtmlParser.parse(

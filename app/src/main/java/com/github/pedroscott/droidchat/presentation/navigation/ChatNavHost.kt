@@ -10,8 +10,8 @@ import com.github.pedroscott.droidchat.presentation.page.signup.SignUpNavAction
 import com.github.pedroscott.droidchat.presentation.page.signup.SignUpRoute
 import com.github.pedroscott.droidchat.presentation.page.splash.SplashNavAction
 import com.github.pedroscott.droidchat.presentation.page.splash.SplashRoute
-import com.github.pedroscott.droidchat.util.extension.composable
-import com.github.pedroscott.droidchat.util.extension.navigateAndPopUp
+import com.github.pedroscott.droidchat.presentation.util.extension.composable
+import com.github.pedroscott.droidchat.presentation.util.extension.navigateAndPopUp
 
 @Composable
 fun ChatNavHost(

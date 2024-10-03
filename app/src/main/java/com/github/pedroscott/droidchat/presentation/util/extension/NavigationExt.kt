@@ -1,4 +1,4 @@
-package com.github.pedroscott.droidchat.util.extension
+package com.github.pedroscott.droidchat.presentation.util.extension
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition

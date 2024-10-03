@@ -15,7 +15,7 @@ import com.github.pedroscott.droidchat.presentation.atomic.atom.PaddingAtom
 import com.github.pedroscott.droidchat.presentation.atomic.molecule.PrimaryButtonMolecule
 import com.github.pedroscott.droidchat.presentation.theme.ChatDimens
 import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
-import com.github.pedroscott.droidchat.util.extension.parseHtml
+import com.github.pedroscott.droidchat.presentation.util.extension.parseHtml
 
 @Composable
 fun ButtonWithLinkOrganism(
