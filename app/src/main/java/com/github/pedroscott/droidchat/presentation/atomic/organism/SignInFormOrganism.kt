@@ -17,11 +17,11 @@ fun SignInFormOrganism(
     email: String,
     emailError: String?,
     onEmailChange: (String) -> Unit,
-    onEmailFocusChange: (Boolean, String) -> Unit,
+    onEmailFocusChange: (Boolean) -> Unit,
     password: String,
     passwordError: String?,
     onPasswordChange: (String) -> Unit,
-    onPasswordFocusChange: (Boolean, String) -> Unit,
+    onPasswordFocusChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
@@ -55,11 +55,11 @@ private fun Preview() {
         SignInFormOrganism(
             email = "",
             onEmailChange = {},
-            onEmailFocusChange = { _, _ -> },
+            onEmailFocusChange = {},
             emailError = null,
             password = "",
             onPasswordChange = {},
-            onPasswordFocusChange = { _, _ -> },
+            onPasswordFocusChange = {},
             passwordError = null
         )
     }

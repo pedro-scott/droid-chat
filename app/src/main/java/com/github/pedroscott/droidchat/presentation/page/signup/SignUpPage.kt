@@ -2,15 +2,20 @@
 
 package com.github.pedroscott.droidchat.presentation.page.signup
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.pedroscott.droidchat.presentation.atomic.organism.AddImageBottomSheetOrganism
 import com.github.pedroscott.droidchat.presentation.atomic.template.SignUpTemplate
 import com.github.pedroscott.droidchat.presentation.navigation.ChatRoute
+import com.github.pedroscott.droidchat.presentation.util.provider.rememberDroidChatFileProvider
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -20,6 +25,23 @@ object SignUpRoute : ChatRoute<SignUpNavAction> {
     override fun Page(handleNavAction: (SignUpNavAction) -> Unit) {
         val viewModel = hiltViewModel<SignUpViewModel>()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val context = LocalContext.current
+        val fileProvider = rememberDroidChatFileProvider()
+
+        val cameraLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.TakePicture(),
+            onResult = { captureSucceed ->
+                if (captureSucceed) {
+                    fileProvider.lastImageUri
+                        ?.let(viewModel::setProfileImage)
+                }
+            }
+        )
+
+        val pickerLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = viewModel::setProfileImage
+        )
 
         LaunchedEffect(uiState.navAction) {
             uiState.navAction?.let {
@@ -28,10 +50,27 @@ object SignUpRoute : ChatRoute<SignUpNavAction> {
             }
         }
 
+        LaunchedEffect(uiState.showImagePicker) {
+            if (uiState.showImagePicker) {
+                pickerLauncher.launch(
+                    input = PickVisualMediaRequest(
+                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            }
+        }
+
+        LaunchedEffect(uiState.showCamera) {
+            if (uiState.showCamera) {
+                fileProvider.getImageUri(context = context, fileName = "profile_image")
+                    ?.let(cameraLauncher::launch)
+            }
+        }
+
         AddImageBottomSheetOrganism(
-            show = uiState.showUploadImageOptions,
-            onDismissRequest = viewModel::clearUploadImageOptions,
-            onItemClick = viewModel::onUploadImageOptionSelect
+            show = uiState.showAddImageOptions,
+            onDismissRequest = viewModel::clearAddImageOptions,
+            onItemClick = viewModel::onAddImageOptionSelect
         )
 
         SignUpTemplate(

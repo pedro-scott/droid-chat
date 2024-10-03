@@ -7,6 +7,8 @@ import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUs
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidationEmptinessUseCase
 import com.github.pedroscott.droidchat.presentation.model.StringResource
 import com.github.pedroscott.droidchat.presentation.page.common.ChatViewModel
+import com.github.pedroscott.droidchat.presentation.util.extension.getEmailErrorMessage
+import com.github.pedroscott.droidchat.presentation.util.extension.getEmptinessErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,26 +32,22 @@ class SignInViewModel @Inject constructor(
         updateButtonState()
     }
 
-    fun onEmailFocusChange(isFocused: Boolean, fieldName: String) {
+    fun onEmailFocusChange(isFocused: Boolean) {
         updateUiState {
             copy(
                 emailError = if (!isFocused)
-                    getEmailErrorMessage(
-                        validationResult = validateEmail(uiState.value.email),
-                        fieldName = fieldName
-                    )
+                    validateEmail(uiState.value.email).getEmailErrorMessage()
                 else null
             )
         }
     }
 
-    fun onPasswordFocusChange(isFocused: Boolean, fieldName: String) {
+    fun onPasswordFocusChange(isFocused: Boolean) {
         updateUiState {
             copy(
                 passwordError = if (!isFocused)
-                    getPasswordErrorMessage(
-                        validationResult = validateEmptiness(uiState.value.password),
-                        fieldName = fieldName
+                    validateEmptiness(uiState.value.password).getEmptinessErrorMessage(
+                        fieldName = StringResource(R.string.feature_login_password)
                     )
                 else null
             )
@@ -72,18 +70,6 @@ class SignInViewModel @Inject constructor(
     fun clearNavAction() {
         updateUiState { copy(navAction = null) }
     }
-
-    private fun getEmailErrorMessage(validationResult: DefaultValidationResult, fieldName: String) =
-        when (validationResult) {
-            is DefaultValidationResult.Valid -> null
-            is DefaultValidationResult.Invalid -> StringResource(R.string.error_message_email_invalid)
-            is DefaultValidationResult.Empty -> StringResource(R.string.error_message_field_blank, fieldName)
-        }
-
-    private fun getPasswordErrorMessage(validationResult: DefaultValidationResult, fieldName: String) =
-        if  (validationResult is DefaultValidationResult.Empty)
-            StringResource(R.string.error_message_field_blank, fieldName)
-        else null
 
     private fun updateButtonState() {
         val validations = listOf(

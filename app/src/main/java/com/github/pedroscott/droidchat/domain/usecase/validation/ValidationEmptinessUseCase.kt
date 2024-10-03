@@ -4,13 +4,13 @@ import com.github.pedroscott.droidchat.domain.entity.validation.DefaultValidatio
 import javax.inject.Inject
 
 interface ValidationEmptinessUseCase {
-    operator fun invoke(email: String): DefaultValidationResult
+    operator fun invoke(value: String): DefaultValidationResult
 }
 
 class ValidationEmptinessUseCaseImpl @Inject constructor() : ValidationEmptinessUseCase {
 
-    override fun invoke(email: String): DefaultValidationResult {
-        if (email.isBlank()) {
+    override fun invoke(value: String): DefaultValidationResult {
+        if (value.isBlank()) {
             return DefaultValidationResult.Empty
         }
 

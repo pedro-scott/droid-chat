@@ -35,7 +35,7 @@ fun SecondaryFieldMolecule(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onFocusChange: (Boolean, String) -> Unit = { _, _ -> },
+    onFocusChange: (Boolean) -> Unit = {},
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     infoText: String? = null,
@@ -57,7 +57,7 @@ fun SecondaryFieldMolecule(
                 .fillMaxWidth()
                 .onFocusChanged {
                     if (!isInitialFocus) {
-                        onFocusChange(it.isFocused, label)
+                        onFocusChange(it.isFocused)
                     } else {
                         isInitialFocus = false
                     }

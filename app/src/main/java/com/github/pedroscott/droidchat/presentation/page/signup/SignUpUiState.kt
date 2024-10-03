@@ -19,6 +19,8 @@ data class SignUpUiState(
     val confirmation: String = "",
     val confirmationInfo: StringResource? = null,
     val confirmationError: StringResource? = null,
-    val showUploadImageOptions: Boolean = false,
+    val showAddImageOptions: Boolean = false,
+    val showImagePicker: Boolean = false,
+    val showCamera: Boolean = false,
     val navAction: SignUpNavAction? = null
 )

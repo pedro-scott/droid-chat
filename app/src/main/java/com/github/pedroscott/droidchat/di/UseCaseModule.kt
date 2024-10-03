@@ -2,6 +2,8 @@ package com.github.pedroscott.droidchat.di
 
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCaseImpl
+import com.github.pedroscott.droidchat.domain.usecase.validation.ValidatePasswordUseCase
+import com.github.pedroscott.droidchat.domain.usecase.validation.ValidatePasswordUseCaseImpl
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidationEmptinessUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidationEmptinessUseCaseImpl
 import dagger.Binds
@@ -21,4 +23,8 @@ interface UseCaseModule {
     @Binds
     @ViewModelScoped
     fun bindValidateEmailUseCase(impl: ValidateEmailUseCaseImpl): ValidateEmailUseCase
+
+    @Binds
+    @ViewModelScoped
+    fun bindValidatePasswordUseCase(impl: ValidatePasswordUseCaseImpl): ValidatePasswordUseCase
 }

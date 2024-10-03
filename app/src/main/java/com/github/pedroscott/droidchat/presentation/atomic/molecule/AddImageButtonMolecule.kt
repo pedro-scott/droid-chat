@@ -1,5 +1,6 @@
 package com.github.pedroscott.droidchat.presentation.atomic.molecule
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -10,13 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.github.pedroscott.droidchat.R
 import com.github.pedroscott.droidchat.presentation.atomic.atom.PaddingAtom
 import com.github.pedroscott.droidchat.presentation.theme.ChatDimens
@@ -32,15 +37,26 @@ fun AddImageButtonMolecule(
         modifier = modifier.clickable(onClick = onAddImageClick),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val imageSize = if (image == null) 60 else 90
+        val colorFilter = if (image == null) ColorFilter.tint(MaterialTheme.colorScheme.onSurface) else null
+        val borderColor = if (image == null) Color.Transparent else MaterialTheme.colorScheme.onSurface
+
         AsyncImage(
-            model = image ?: R.drawable.ic_upload_photo,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(image ?: R.drawable.ic_upload_photo)
+                .error(R.drawable.no_profile_image)
+                .build(),
             contentDescription = null,
             modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape),
-            placeholder = painterResource(id = R.drawable.ic_upload_photo),
+                .size(imageSize.dp)
+                .clip(CircleShape)
+                .border(
+                    width = 2.dp,
+                    color = borderColor,
+                    shape = CircleShape
+                ),
             contentScale = ContentScale.Crop,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+            colorFilter = colorFilter
         )
         if (image == null) {
             PaddingAtom(ChatDimens.Padding.detail)
@@ -54,12 +70,20 @@ fun AddImageButtonMolecule(
     }
 }
 
+private class AddImageButtonParameterProvider : CollectionPreviewParameterProvider<String?>(
+    listOf(null, "")
+)
+
 @Preview(showBackground = true)
 @Composable
-private fun Preview() {
+private fun Preview(
+    @PreviewParameter(
+        AddImageButtonParameterProvider::class
+    ) image: String?
+) {
     DroidChatTheme {
         AddImageButtonMolecule(
-            image = null,
+            image = image,
             onAddImageClick = {}
         )
     }

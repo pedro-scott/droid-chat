@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,30 +34,32 @@ fun SignUpTemplate(
     firstName: String,
     firstNameError: String?,
     onFirstNameChange: (String) -> Unit,
-    onFirstNameFocusChange: (Boolean, String) -> Unit,
+    onFirstNameFocusChange: (Boolean) -> Unit,
     lastName: String,
     lastNameError: String?,
     onLastNameChange: (String) -> Unit,
-    onLastNameFocusChange: (Boolean, String) -> Unit,
+    onLastNameFocusChange: (Boolean) -> Unit,
     email: String,
     emailError: String?,
     onEmailChange: (String) -> Unit,
-    onEmailFocusChange: (Boolean, String) -> Unit,
+    onEmailFocusChange: (Boolean) -> Unit,
     password: String,
     passwordInfo: String?,
     passwordError: String?,
     onPasswordChange: (String) -> Unit,
-    onPasswordFocusChange: (Boolean, String) -> Unit,
+    onPasswordFocusChange: (Boolean) -> Unit,
     confirmation: String,
     confirmationInfo: String?,
     confirmationError: String?,
     onConfirmationChange: (String) -> Unit,
-    onConfirmationFocusChange: (Boolean, String) -> Unit,
+    onConfirmationFocusChange: (Boolean) -> Unit,
     onLinkClick: () -> Unit,
     onButtonClick: () -> Unit,
     isButtonLoading: Boolean,
     isButtonEnabled: Boolean
 ) {
+    val focusManager = LocalFocusManager.current
+
     Box(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
@@ -116,7 +119,10 @@ fun SignUpTemplate(
                     PaddingAtom(36.dp)
                     ButtonWithLinkOrganism(
                         buttonText = stringResource(id = R.string.feature_sign_up_button),
-                        onButtonClick = onButtonClick,
+                        onButtonClick = {
+                            focusManager.clearFocus()
+                            onButtonClick()
+                        },
                         isButtonLoading = isButtonLoading,
                         isButtonEnabled = isButtonEnabled,
                         linkText = stringResource(id = R.string.feature_sign_up_has_account),
@@ -138,25 +144,25 @@ private fun Preview() {
             firstName = "",
             firstNameError = null,
             onFirstNameChange = {},
-            onFirstNameFocusChange = { _, _ -> },
+            onFirstNameFocusChange = {},
             lastName = "",
             lastNameError = null,
             onLastNameChange = {},
-            onLastNameFocusChange = { _, _ -> },
+            onLastNameFocusChange = {},
             email = "",
             emailError = null,
             onEmailChange = {},
-            onEmailFocusChange = { _, _ -> },
+            onEmailFocusChange = {},
             password = "",
             passwordInfo = null,
             passwordError = null,
             onPasswordChange = {},
-            onPasswordFocusChange = { _, _ -> },
+            onPasswordFocusChange = {},
             confirmation = "",
             confirmationInfo = null,
             confirmationError = null,
             onConfirmationChange = {},
-            onConfirmationFocusChange = { _, _ -> },
+            onConfirmationFocusChange = {},
             onLinkClick = {},
             onButtonClick = {},
             isButtonLoading = false,

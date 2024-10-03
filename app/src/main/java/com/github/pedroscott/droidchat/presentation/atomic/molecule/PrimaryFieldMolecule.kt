@@ -39,7 +39,7 @@ fun PrimaryFieldMolecule(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onFocusChange: (Boolean, String) -> Unit = { _, _ -> },
+    onFocusChange: (Boolean) -> Unit = {},
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     @DrawableRes leadingIcon: Int? = null,
@@ -60,7 +60,7 @@ fun PrimaryFieldMolecule(
                 .fillMaxWidth()
                 .onFocusChanged {
                     if (!isInitialFocus) {
-                        onFocusChange(it.isFocused, placeholder)
+                        onFocusChange(it.isFocused)
                     } else {
                         isInitialFocus = false
                     }
