@@ -1,7 +1,6 @@
 package com.github.pedroscott.droidchat.presentation.atomic.organism
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,22 +13,21 @@ import com.github.pedroscott.droidchat.presentation.atomic.molecule.PrimaryField
 import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
 
 @Composable
-fun SignInFieldsOrganism(
+fun SignInFormOrganism(
     email: String,
     emailError: String?,
     onEmailChange: (String) -> Unit,
-    onEmailFocusChange: (Boolean) -> Unit,
+    onEmailFocusChange: (Boolean, String) -> Unit,
     password: String,
     passwordError: String?,
     onPasswordChange: (String) -> Unit,
-    onPasswordFocusChange: (Boolean) -> Unit,
+    onPasswordFocusChange: (Boolean, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
         PrimaryFieldMolecule(
             value = email,
             onValueChange = onEmailChange,
-            modifier = Modifier.fillMaxWidth(),
             onFocusChange = onEmailFocusChange,
             placeholder = stringResource(id = R.string.feature_login_email),
             keyboardType = KeyboardType.Email,
@@ -40,7 +38,6 @@ fun SignInFieldsOrganism(
         PrimaryFieldMolecule(
             value = password,
             onValueChange = onPasswordChange,
-            modifier = Modifier.fillMaxWidth(),
             onFocusChange = onPasswordFocusChange,
             placeholder = stringResource(id = R.string.feature_login_password),
             keyboardType = KeyboardType.Password,
@@ -55,14 +52,14 @@ fun SignInFieldsOrganism(
 @Composable
 private fun Preview() {
     DroidChatTheme {
-        SignInFieldsOrganism(
+        SignInFormOrganism(
             email = "",
             onEmailChange = {},
-            onEmailFocusChange = {},
+            onEmailFocusChange = { _, _ -> },
             emailError = null,
             password = "",
             onPasswordChange = {},
-            onPasswordFocusChange = {},
+            onPasswordFocusChange = { _, _ -> },
             passwordError = null
         )
     }

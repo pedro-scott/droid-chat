@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.pedroscott.droidchat.R
@@ -22,19 +23,25 @@ import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
 fun IconAndTextMolecule(
     @DrawableRes iconRes: Int,
     @StringRes textRes: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    iconColor: Color = Color.Unspecified,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium.copy(
+        color = Color.White
+    )
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconAtom(painter = painterResource(id = iconRes))
+        IconAtom(
+            painter = painterResource(id = iconRes),
+            tint = iconColor
+        )
         PaddingAtom()
         Text(
             text = stringResource(id = textRes),
-            color = Color.White,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
+            style = textStyle
         )
     }
 }

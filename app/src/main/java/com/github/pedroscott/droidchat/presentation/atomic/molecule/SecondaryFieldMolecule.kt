@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,7 +35,7 @@ fun SecondaryFieldMolecule(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onFocusChange: (Boolean) -> Unit = {},
+    onFocusChange: (Boolean, String) -> Unit = { _, _ -> },
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     infoText: String? = null,
@@ -58,7 +57,7 @@ fun SecondaryFieldMolecule(
                 .fillMaxWidth()
                 .onFocusChanged {
                     if (!isInitialFocus) {
-                        onFocusChange(it.isFocused)
+                        onFocusChange(it.isFocused, label)
                     } else {
                         isInitialFocus = false
                     }
@@ -67,7 +66,6 @@ fun SecondaryFieldMolecule(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -76,7 +74,8 @@ fun SecondaryFieldMolecule(
                 if (isPasswordField && value.isNotBlank()) {
                     PasswordIconAtom(
                         showPassword = showPassword,
-                        onClick = { showPassword = !showPassword }
+                        onClick = { showPassword = !showPassword },
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             },
@@ -92,8 +91,11 @@ fun SecondaryFieldMolecule(
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 disabledContainerColor = MaterialTheme.colorScheme.surface,
-                focusedIndicatorColor = with(MaterialTheme.colorScheme) { if (showError) error else onSurfaceVariant },
-                unfocusedIndicatorColor = if (showError) MaterialTheme.colorScheme.error else Color.Unspecified
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedIndicatorColor = with(MaterialTheme.colorScheme) { if (showError) error else onSurface },
+                unfocusedIndicatorColor = with(MaterialTheme.colorScheme) { if (showError) error else onSurface },
+                focusedLabelColor = with(MaterialTheme.colorScheme) { if (showError) error else onSurface },
+                unfocusedLabelColor = with(MaterialTheme.colorScheme) { if (showError) error else onSurface },
             )
         )
         AnimatedVisibility(visible = showError) {

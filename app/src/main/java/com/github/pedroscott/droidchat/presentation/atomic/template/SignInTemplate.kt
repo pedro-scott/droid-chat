@@ -1,7 +1,6 @@
 package com.github.pedroscott.droidchat.presentation.atomic.template
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,23 +18,22 @@ import androidx.compose.ui.unit.dp
 import com.github.pedroscott.droidchat.R
 import com.github.pedroscott.droidchat.presentation.atomic.atom.AppLogoAtom
 import com.github.pedroscott.droidchat.presentation.atomic.atom.PaddingAtom
-import com.github.pedroscott.droidchat.presentation.atomic.molecule.PrimaryButtonMolecule
-import com.github.pedroscott.droidchat.presentation.atomic.organism.SignInFieldsOrganism
+import com.github.pedroscott.droidchat.presentation.atomic.organism.ButtonWithLinkOrganism
+import com.github.pedroscott.droidchat.presentation.atomic.organism.SignInFormOrganism
 import com.github.pedroscott.droidchat.presentation.theme.ChatColors
 import com.github.pedroscott.droidchat.presentation.theme.ChatDimens
 import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
-import com.github.pedroscott.droidchat.util.extension.parseHtml
 
 @Composable
 fun SignInTemplate(
     email: String,
     emailError: String?,
     onEmailChange: (String) -> Unit,
-    onEmailFocusChange: (Boolean) -> Unit,
+    onEmailFocusChange: (Boolean, String) -> Unit,
     password: String,
     passwordError: String?,
     onPasswordChange: (String) -> Unit,
-    onPasswordFocusChange: (Boolean) -> Unit,
+    onPasswordFocusChange: (Boolean, String) -> Unit,
     onLinkClick: () -> Unit,
     onButtonClick: () -> Unit,
     isButtonLoading: Boolean,
@@ -55,7 +52,7 @@ fun SignInTemplate(
     ) {
         AppLogoAtom()
         PaddingAtom(78.dp)
-        SignInFieldsOrganism(
+        SignInFormOrganism(
             email = email,
             onEmailChange = onEmailChange,
             onEmailFocusChange = onEmailFocusChange,
@@ -66,20 +63,18 @@ fun SignInTemplate(
             passwordError = passwordError
         )
         PaddingAtom(97.dp)
-        PrimaryButtonMolecule(
-            text = stringResource(id = R.string.feature_login_button),
-            onClick = {
+        ButtonWithLinkOrganism(
+            buttonText = stringResource(id = R.string.feature_login_button),
+            onButtonClick = {
                 focusManager.clearFocus()
                 onButtonClick()
             },
-            isLoading = isButtonLoading,
-            isEnabled = isButtonEnabled
-        )
-        PaddingAtom(57.dp)
-        Text(
-            text = stringResource(id = R.string.feature_login_no_account).parseHtml(),
-            modifier = Modifier.clickable(onClick = onLinkClick),
-            color = MaterialTheme.colorScheme.onPrimary
+            isButtonLoading = isButtonLoading,
+            isButtonEnabled = isButtonEnabled,
+            linkText = stringResource(id = R.string.feature_login_no_account),
+            onLinkClick = onLinkClick,
+            linkColor = MaterialTheme.colorScheme.onPrimary,
+            spacer = 57.dp
         )
     }
 }
@@ -91,11 +86,11 @@ private fun Preview() {
         SignInTemplate(
             email = "",
             onEmailChange = {},
-            onEmailFocusChange = {},
+            onEmailFocusChange = { _, _ -> },
             emailError = null,
             password = "",
             onPasswordChange = {},
-            onPasswordFocusChange = {},
+            onPasswordFocusChange = { _, _ -> },
             passwordError = null,
             onLinkClick = {},
             onButtonClick = {},

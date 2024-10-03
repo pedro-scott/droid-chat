@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.pedroscott.droidchat.R
@@ -17,7 +18,8 @@ import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
 fun PasswordIconAtom(
     showPassword: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    tint: Color = MaterialTheme.colorScheme.primary
 ) {
     IconButton(
         onClick = onClick,
@@ -29,7 +31,7 @@ fun PasswordIconAtom(
                     R.drawable.ic_visibility_off
                 else R.drawable.ic_visibility
             ),
-            tint = MaterialTheme.colorScheme.primary
+            tint = tint
         )
     }
 }

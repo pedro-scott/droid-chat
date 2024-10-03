@@ -29,8 +29,7 @@
     <string name="feature_sign_up_password_confirmation">Confirmar senha</string>
     <string name="feature_sign_up_button">Cadastrar</string>
     <string name="feature_sign_up_passwords_match">as senhas são iguais</string>
-    <string name="feature_sign_up_has_account">Já possui uma conta?</string>
-    <string name="feature_sign_up_login_here">Fazer login</string>
+    <string name="feature_sign_up_has_account"><![CDATA[Já possui uma conta? <font color="#00BCCE"><u>Fazer login</u></font>]]></string>
 
     <string name="splash_safety_info">Mensagens seguras, criptografadas e privadas</string>
 

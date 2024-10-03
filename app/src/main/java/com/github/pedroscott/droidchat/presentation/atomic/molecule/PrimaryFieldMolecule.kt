@@ -35,11 +35,11 @@ import com.github.pedroscott.droidchat.presentation.theme.DroidChatTheme
 
 @Composable
 fun PrimaryFieldMolecule(
+    placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onFocusChange: (Boolean) -> Unit = {},
-    placeholder: String? = null,
+    onFocusChange: (Boolean, String) -> Unit = { _, _ -> },
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     @DrawableRes leadingIcon: Int? = null,
@@ -60,16 +60,12 @@ fun PrimaryFieldMolecule(
                 .fillMaxWidth()
                 .onFocusChanged {
                     if (!isInitialFocus) {
-                        onFocusChange(it.isFocused)
+                        onFocusChange(it.isFocused, placeholder)
                     } else {
                         isInitialFocus = false
                     }
                 },
-            placeholder = {
-                placeholder?.let {
-                    Text(text = it)
-                }
-            },
+            placeholder = { Text(text = placeholder) },
             leadingIcon = {
                 leadingIcon?.let {
                     IconAtom(
@@ -127,9 +123,9 @@ private fun DefaultPreview(
 ) {
     DroidChatTheme {
         PrimaryFieldMolecule(
+            placeholder = "E-mail",
             value = "",
             onValueChange = {},
-            placeholder = "E-mail",
             leadingIcon = R.drawable.ic_envelope,
             errorMessage = errorMessage
         )
@@ -149,9 +145,9 @@ private fun PasswordPreview(
 ) {
     DroidChatTheme {
         PrimaryFieldMolecule(
+            placeholder = "Senha",
             value = value,
             onValueChange = {},
-            placeholder = "Senha",
             leadingIcon = R.drawable.ic_lock,
             keyboardType = KeyboardType.Password
         )

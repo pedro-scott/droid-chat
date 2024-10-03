@@ -1,4 +1,4 @@
-package com.github.pedroscott.droidchat.presentation.page.signin
+package com.github.pedroscott.droidchat.presentation.page.signup
 
 import androidx.lifecycle.viewModelScope
 import com.github.pedroscott.droidchat.R
@@ -6,6 +6,7 @@ import com.github.pedroscott.droidchat.domain.entity.validation.DefaultValidatio
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidationEmptinessUseCase
 import com.github.pedroscott.droidchat.presentation.model.StringResource
+import com.github.pedroscott.droidchat.presentation.model.AddImageOption
 import com.github.pedroscott.droidchat.presentation.page.common.ChatViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -13,12 +14,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignUpViewModel @Inject constructor(
     private val validateEmail: ValidateEmailUseCase,
     private val validateEmptiness: ValidationEmptinessUseCase
-) : ChatViewModel<SignInUiState>(
-    initUiState = SignInUiState()
+) : ChatViewModel<SignUpUiState>(
+    initUiState = SignUpUiState()
 ) {
+
+    fun onFirstNameChange(value: String) {
+        updateUiState { copy(firstName = value) }
+        updateButtonState()
+    }
+
+    fun onLastNameChange(value: String) {
+        updateUiState { copy(lastName = value) }
+        updateButtonState()
+    }
 
     fun onEmailChange(value: String) {
         updateUiState { copy(email = value) }
@@ -28,6 +39,37 @@ class SignInViewModel @Inject constructor(
     fun onPasswordChange(value: String) {
         updateUiState { copy(password = value) }
         updateButtonState()
+    }
+
+    fun onConfirmationChange(value: String) {
+        updateUiState { copy(confirmation = value) }
+        updateButtonState()
+    }
+
+    fun onFirstNameFocusChange(isFocused: Boolean, fieldName: String) {
+        updateUiState {
+            copy(
+                firstNameError = if (!isFocused)
+                    getEmptinessErrorMessage(
+                        validationResult = validateEmptiness(uiState.value.firstName),
+                        fieldName = fieldName
+                    )
+                else null
+            )
+        }
+    }
+
+    fun onLastNameFocusChange(isFocused: Boolean, fieldName: String) {
+        updateUiState {
+            copy(
+                lastNameError = if (!isFocused)
+                    getEmptinessErrorMessage(
+                        validationResult = validateEmptiness(uiState.value.lastName),
+                        fieldName = fieldName
+                    )
+                else null
+            )
+        }
     }
 
     fun onEmailFocusChange(isFocused: Boolean, fieldName: String) {
@@ -47,7 +89,7 @@ class SignInViewModel @Inject constructor(
         updateUiState {
             copy(
                 passwordError = if (!isFocused)
-                    getPasswordErrorMessage(
+                    getEmptinessErrorMessage(
                         validationResult = validateEmptiness(uiState.value.password),
                         fieldName = fieldName
                     )
@@ -56,8 +98,21 @@ class SignInViewModel @Inject constructor(
         }
     }
 
+    fun onConfirmationFocusChange(isFocused: Boolean, fieldName: String) {
+        updateUiState {
+            copy(
+                confirmationError = if (!isFocused)
+                    getEmptinessErrorMessage(
+                        validationResult = validateEmptiness(uiState.value.confirmation),
+                        fieldName = fieldName
+                    )
+                else null
+            )
+        }
+    }
+
     fun onLinkClick() {
-        updateUiState { copy(navAction = SignInNavAction.SignUp) }
+        updateUiState { copy(navAction = SignUpNavAction.Back) }
     }
 
     fun onButtonClick() {
@@ -67,6 +122,19 @@ class SignInViewModel @Inject constructor(
             delay(2000L)
             updateUiState { copy(isButtonLoading = false) }
         }
+    }
+
+    fun onAddImageClick() {
+        updateUiState { copy(showUploadImageOptions = true) }
+    }
+
+    fun onUploadImageOptionSelect(option: AddImageOption) {
+        // TODO
+        clearUploadImageOptions()
+    }
+
+    fun clearUploadImageOptions() {
+        updateUiState { copy(showUploadImageOptions = false) }
     }
 
     fun clearNavAction() {
@@ -80,15 +148,18 @@ class SignInViewModel @Inject constructor(
             is DefaultValidationResult.Empty -> StringResource(R.string.error_message_field_blank, fieldName)
         }
 
-    private fun getPasswordErrorMessage(validationResult: DefaultValidationResult, fieldName: String) =
+    private fun getEmptinessErrorMessage(validationResult: DefaultValidationResult, fieldName: String) =
         if  (validationResult is DefaultValidationResult.Empty)
             StringResource(R.string.error_message_field_blank, fieldName)
         else null
 
     private fun updateButtonState() {
         val validations = listOf(
+            validateEmptiness(uiState.value.firstName),
+            validateEmptiness(uiState.value.lastName),
             validateEmail(uiState.value.email),
-            validateEmptiness(uiState.value.password)
+            validateEmptiness(uiState.value.password),
+            validateEmptiness(uiState.value.confirmation)
         )
 
         updateUiState {
