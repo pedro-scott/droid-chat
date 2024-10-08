@@ -18,7 +18,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val validateEmail: ValidateEmailUseCase,
     private val validateEmptiness: ValidationEmptinessUseCase
-) : ChatViewModel<SignInUiState>(
+) : ChatViewModel<SignInUiState, SignInNavAction>(
     initUiState = SignInUiState()
 ) {
 
@@ -55,7 +55,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun onLinkClick() {
-        updateUiState { copy(navAction = SignInNavAction.SignUp) }
+        emitAction(SignInNavAction.SignUp)
     }
 
     fun onButtonClick() {
@@ -65,10 +65,6 @@ class SignInViewModel @Inject constructor(
             delay(2000L)
             updateUiState { copy(isButtonLoading = false) }
         }
-    }
-
-    fun clearNavAction() {
-        updateUiState { copy(navAction = null) }
     }
 
     private fun updateButtonState() {

@@ -1,12 +1,12 @@
 package com.github.pedroscott.droidchat.presentation.page.signin
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.pedroscott.droidchat.presentation.atomic.template.SignInTemplate
 import com.github.pedroscott.droidchat.presentation.navigation.ChatRoute
+import com.github.pedroscott.droidchat.presentation.page.common.ObserveActions
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,12 +17,10 @@ object SignInRoute : ChatRoute<SignInNavAction> {
         val viewModel: SignInViewModel = hiltViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        LaunchedEffect(uiState.navAction) {
-            uiState.navAction?.let {
-                handleNavAction(it)
-                viewModel.clearNavAction()
-            }
-        }
+        ObserveActions(
+            actionFlow = viewModel.action,
+            handleAction = handleNavAction
+        )
 
         SignInTemplate(
             email = uiState.email,

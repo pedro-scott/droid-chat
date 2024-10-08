@@ -8,6 +8,5 @@ data class SignInUiState(
     val email: String = "",
     val emailError: StringResource? = null,
     val password: String = "",
-    val passwordError: StringResource? = null,
-    val navAction: SignInNavAction? = null
+    val passwordError: StringResource? = null
 )

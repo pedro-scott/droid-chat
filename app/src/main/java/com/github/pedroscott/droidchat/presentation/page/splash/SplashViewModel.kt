@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() : ChatViewModel<SplashUiState>(
-    initUiState = SplashUiState()
+class SplashViewModel @Inject constructor() : ChatViewModel<Any, SplashNavAction>(
+    initUiState = Any()
 ) {
 
     init { awaitAndGo() }
@@ -17,11 +17,7 @@ class SplashViewModel @Inject constructor() : ChatViewModel<SplashUiState>(
     private fun awaitAndGo() {
         viewModelScope.launch {
             delay(2000L)
-            updateUiState { copy(navAction = SplashNavAction.SignIn) }
+            emitAction(SplashNavAction.SignIn)
         }
-    }
-
-    fun clearNavAction() {
-        updateUiState { copy(navAction = null) }
     }
 }

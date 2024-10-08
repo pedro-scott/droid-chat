@@ -24,7 +24,7 @@ class SignUpViewModel @Inject constructor(
     private val validateEmptiness: ValidationEmptinessUseCase,
     private val validateEmail: ValidateEmailUseCase,
     private val validatePassword: ValidatePasswordUseCase
-) : ChatViewModel<SignUpUiState>(
+) : ChatViewModel<SignUpUiState, SignUpNavAction>(
     initUiState = SignUpUiState()
 ) {
 
@@ -114,7 +114,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onLinkClick() {
-        updateUiState { copy(navAction = SignUpNavAction.Back) }
+        emitAction(SignUpNavAction.Back)
     }
 
     fun onButtonClick() {
@@ -142,10 +142,6 @@ class SignUpViewModel @Inject constructor(
 
     fun clearAddImageOptions() {
         updateUiState { copy(showAddImageOptions = false) }
-    }
-
-    fun clearNavAction() {
-        updateUiState { copy(navAction = null) }
     }
 
     fun setProfileImage(uri: Uri?) {

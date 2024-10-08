@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.pedroscott.droidchat.presentation.atomic.organism.AddImageBottomSheetOrganism
 import com.github.pedroscott.droidchat.presentation.atomic.template.SignUpTemplate
 import com.github.pedroscott.droidchat.presentation.navigation.ChatRoute
+import com.github.pedroscott.droidchat.presentation.page.common.ObserveActions
 import com.github.pedroscott.droidchat.presentation.util.provider.rememberDroidChatFileProvider
 import kotlinx.serialization.Serializable
 
@@ -43,12 +44,10 @@ object SignUpRoute : ChatRoute<SignUpNavAction> {
             onResult = viewModel::setProfileImage
         )
 
-        LaunchedEffect(uiState.navAction) {
-            uiState.navAction?.let {
-                handleNavAction(it)
-                viewModel.clearNavAction()
-            }
-        }
+        ObserveActions(
+            actionFlow = viewModel.action,
+            handleAction = handleNavAction
+        )
 
         LaunchedEffect(uiState.showImagePicker) {
             if (uiState.showImagePicker) {
