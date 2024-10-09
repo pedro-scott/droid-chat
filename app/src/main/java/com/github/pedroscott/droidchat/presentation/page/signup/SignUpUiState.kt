@@ -1,8 +1,10 @@
 package com.github.pedroscott.droidchat.presentation.page.signup
 
 import android.net.Uri
+import androidx.compose.runtime.Immutable
 import com.github.pedroscott.droidchat.presentation.model.StringResource
 
+@Immutable
 data class SignUpUiState(
     val isButtonLoading: Boolean = false,
     val isButtonEnabled: Boolean = false,
