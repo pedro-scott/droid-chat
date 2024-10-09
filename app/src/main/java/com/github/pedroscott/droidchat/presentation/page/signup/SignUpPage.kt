@@ -7,25 +7,24 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.pedroscott.droidchat.presentation.atomic.organism.AddImageBottomSheetOrganism
 import com.github.pedroscott.droidchat.presentation.atomic.template.SignUpTemplate
 import com.github.pedroscott.droidchat.presentation.navigation.ChatRoute
 import com.github.pedroscott.droidchat.presentation.page.common.ObserveActions
+import com.github.pedroscott.droidchat.presentation.util.extension.asState
 import com.github.pedroscott.droidchat.presentation.util.provider.rememberDroidChatFileProvider
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SignUpRoute : ChatRoute<SignUpNavAction> {
+object SignUpRoute : ChatRoute<SignUpAction.Nav> {
 
     @Composable
-    override fun Page(handleNavAction: (SignUpNavAction) -> Unit) {
+    override fun Page(handleNavAction: (SignUpAction.Nav) -> Unit) {
         val viewModel = hiltViewModel<SignUpViewModel>()
-        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val uiState by viewModel.uiState.asState()
         val context = LocalContext.current
         val fileProvider = rememberDroidChatFileProvider()
 
@@ -46,25 +45,24 @@ object SignUpRoute : ChatRoute<SignUpNavAction> {
 
         ObserveActions(
             actionFlow = viewModel.action,
-            handleAction = handleNavAction
+            handleAction = { action ->
+                when (action) {
+                    is SignUpAction.Nav -> handleNavAction(action)
+                    is SignUpAction.Camera -> {
+                        fileProvider
+                            .getImageUri(context = context, fileName = "profile_image")
+                            ?.let(cameraLauncher::launch)
+                    }
+                    is SignUpAction.Gallery -> {
+                        pickerLauncher.launch(
+                            input = PickVisualMediaRequest(
+                                mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
+                    }
+                }
+            }
         )
-
-        LaunchedEffect(uiState.showImagePicker) {
-            if (uiState.showImagePicker) {
-                pickerLauncher.launch(
-                    input = PickVisualMediaRequest(
-                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
-            }
-        }
-
-        LaunchedEffect(uiState.showCamera) {
-            if (uiState.showCamera) {
-                fileProvider.getImageUri(context = context, fileName = "profile_image")
-                    ?.let(cameraLauncher::launch)
-            }
-        }
 
         AddImageBottomSheetOrganism(
             show = uiState.showAddImageOptions,

@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.github.pedroscott.droidchat.presentation.page.signin.SignInNavAction
 import com.github.pedroscott.droidchat.presentation.page.signin.SignInRoute
-import com.github.pedroscott.droidchat.presentation.page.signup.SignUpNavAction
+import com.github.pedroscott.droidchat.presentation.page.signup.SignUpAction
 import com.github.pedroscott.droidchat.presentation.page.signup.SignUpRoute
 import com.github.pedroscott.droidchat.presentation.page.splash.SplashNavAction
 import com.github.pedroscott.droidchat.presentation.page.splash.SplashRoute
@@ -49,7 +49,7 @@ fun ChatNavHost(
             Page(
                 handleNavAction = { navAction ->
                     when (navAction) {
-                        is SignUpNavAction.Back -> navController.navigateUp()
+                        is SignUpAction.Nav.Back -> navController.navigateUp()
                     }
                 }
             )

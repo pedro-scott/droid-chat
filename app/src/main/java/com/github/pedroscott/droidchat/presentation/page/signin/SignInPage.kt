@@ -3,10 +3,10 @@ package com.github.pedroscott.droidchat.presentation.page.signin
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.pedroscott.droidchat.presentation.atomic.template.SignInTemplate
 import com.github.pedroscott.droidchat.presentation.navigation.ChatRoute
 import com.github.pedroscott.droidchat.presentation.page.common.ObserveActions
+import com.github.pedroscott.droidchat.presentation.util.extension.asState
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,11 +15,11 @@ object SignInRoute : ChatRoute<SignInNavAction> {
     @Composable
     override fun Page(handleNavAction: (SignInNavAction) -> Unit) {
         val viewModel: SignInViewModel = hiltViewModel()
-        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val uiState by viewModel.uiState.asState()
 
         ObserveActions(
             actionFlow = viewModel.action,
-            handleAction = handleNavAction
+            handleAction = { handleNavAction(it) }
         )
 
         SignInTemplate(

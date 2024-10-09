@@ -24,7 +24,7 @@ class SignUpViewModel @Inject constructor(
     private val validateEmptiness: ValidationEmptinessUseCase,
     private val validateEmail: ValidateEmailUseCase,
     private val validatePassword: ValidatePasswordUseCase
-) : ChatViewModel<SignUpUiState, SignUpNavAction>(
+) : ChatViewModel<SignUpUiState, SignUpAction>(
     initUiState = SignUpUiState()
 ) {
 
@@ -114,7 +114,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onLinkClick() {
-        emitAction(SignUpNavAction.Back)
+        emitAction(SignUpAction.Nav.Back)
     }
 
     fun onButtonClick() {
@@ -131,12 +131,12 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onAddImageOptionSelect(option: AddImageOption) {
-        updateUiState {
+        emitAction(
             when (option) {
-                AddImageOption.TAKE -> copy(showCamera = true)
-                AddImageOption.UPLOAD -> copy(showImagePicker = true)
+                AddImageOption.TAKE -> SignUpAction.Camera
+                AddImageOption.UPLOAD -> SignUpAction.Gallery
             }
-        }
+        )
         clearAddImageOptions()
     }
 
@@ -147,9 +147,7 @@ class SignUpViewModel @Inject constructor(
     fun setProfileImage(uri: Uri?) {
         updateUiState {
             copy(
-                profileImage = if (profileImage != null && uri == null) profileImage else uri,
-                showImagePicker = false,
-                showCamera = false
+                profileImage = if (profileImage != null && uri == null) profileImage else uri
             )
         }
     }

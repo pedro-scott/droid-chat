@@ -16,7 +16,7 @@ object SplashRoute : ChatRoute<SplashNavAction> {
 
         ObserveActions(
             actionFlow = viewModel.action,
-            handleAction = handleNavAction
+            handleAction = { handleNavAction(it) }
         )
 
         SplashTemplate()
