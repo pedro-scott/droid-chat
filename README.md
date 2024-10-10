@@ -4,7 +4,7 @@
 
 ## 📘 Contexto do Projeto
 
-Este projeto faz parte do **CAMP 2.0**, um curso ministrado por [Douglas Motta](https://www.youtube.com/@DouglasMotta/), que ensina como desenvolver aplicativos Android com boas práticas e a utilização das ferramentas mais modernas do mercado. Complementarmente, em alguns momentos, tomei a liberdade de adotar uma abordagem diferente da ensinada no curso, explorando conceitos adicionais e personalizando a arquitetura do projeto.
+Este projeto faz parte do [CAMP 2.0](https://github.com/douglasramalho/chat-app/tree/final), um curso ministrado por [Douglas Motta](https://www.youtube.com/@DouglasMotta/), que ensina como desenvolver aplicativos Android com boas práticas e a utilização das ferramentas mais modernas do mercado. Complementarmente, em alguns momentos, tomei a liberdade de adotar uma abordagem diferente da ensinada no curso, explorando conceitos adicionais e personalizando a arquitetura do projeto.
 
 ## 🚀 Funcionalidades
 
