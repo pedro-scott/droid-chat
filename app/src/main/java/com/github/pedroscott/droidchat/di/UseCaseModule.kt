@@ -1,5 +1,7 @@
 package com.github.pedroscott.droidchat.di
 
+import com.github.pedroscott.droidchat.domain.usecase.signin.SignInUseCase
+import com.github.pedroscott.droidchat.domain.usecase.signin.SignInUseCaseImpl
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCaseImpl
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidatePasswordUseCase
@@ -27,4 +29,8 @@ interface UseCaseModule {
     @Binds
     @ViewModelScoped
     fun bindValidatePasswordUseCase(impl: ValidatePasswordUseCaseImpl): ValidatePasswordUseCase
+
+    @Binds
+    @ViewModelScoped
+    fun bindSignInUseCase(impl: SignInUseCaseImpl): SignInUseCase
 }

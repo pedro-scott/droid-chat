@@ -1,8 +1,9 @@
 package com.github.pedroscott.droidchat.presentation.page.signin
 
-import androidx.lifecycle.viewModelScope
 import com.github.pedroscott.droidchat.R
+import com.github.pedroscott.droidchat.domain.entity.error.AppError
 import com.github.pedroscott.droidchat.domain.entity.validation.DefaultValidationResult
+import com.github.pedroscott.droidchat.domain.usecase.signin.SignInUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidationEmptinessUseCase
 import com.github.pedroscott.droidchat.presentation.model.StringResource
@@ -10,14 +11,13 @@ import com.github.pedroscott.droidchat.presentation.page.common.ChatViewModel
 import com.github.pedroscott.droidchat.presentation.util.extension.getEmailErrorMessage
 import com.github.pedroscott.droidchat.presentation.util.extension.getEmptinessErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val validateEmail: ValidateEmailUseCase,
-    private val validateEmptiness: ValidationEmptinessUseCase
+    private val validateEmptiness: ValidationEmptinessUseCase,
+    private val signIn: SignInUseCase
 ) : ChatViewModel<SignInUiState, SignInNavAction>(
     initUiState = SignInUiState()
 ) {
@@ -55,16 +55,37 @@ class SignInViewModel @Inject constructor(
     }
 
     fun onLinkClick() {
-        emitAction(SignInNavAction.SignUp)
+        sendAction(SignInNavAction.SignUp)
     }
 
     fun onButtonClick() {
-        // TODO
-        viewModelScope.launch {
-            updateUiState { copy(isButtonLoading = true) }
-            delay(2000L)
-            updateUiState { copy(isButtonLoading = false) }
-        }
+        executeAsync(
+            block = {
+                signIn(
+                    SignInUseCase.Params(
+                        email = uiState.value.email,
+                        password = uiState.value.password
+                    )
+                )
+            },
+            onLoading = { updateUiState { copy(isButtonLoading = it) } },
+            onSuccess = { /* TODO */ },
+            onError = { error ->
+                updateUiState {
+                    copy(
+                        errorMessage = StringResource(
+                            if (error is AppError.Api.Conflict)
+                                R.string.error_message_invalid_username_or_password
+                            else R.string.common_generic_error_message
+                        )
+                    )
+                }
+            }
+        )
+    }
+
+    fun clearError() {
+        updateUiState { copy(errorMessage = null) }
     }
 
     private fun updateButtonState() {

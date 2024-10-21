@@ -17,7 +17,7 @@ class SplashViewModel @Inject constructor() : ChatViewModel<Any, SplashNavAction
     private fun awaitAndGo() {
         viewModelScope.launch {
             delay(2000L)
-            emitAction(SplashNavAction.SignIn)
+            sendAction(SplashNavAction.SignIn)
         }
     }
 }

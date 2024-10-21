@@ -114,7 +114,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onLinkClick() {
-        emitAction(SignUpAction.Nav.Back)
+        sendAction(SignUpAction.Nav.Back)
     }
 
     fun onButtonClick() {
@@ -131,7 +131,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onAddImageOptionSelect(option: AddImageOption) {
-        emitAction(
+        sendAction(
             when (option) {
                 AddImageOption.TAKE -> SignUpAction.Camera
                 AddImageOption.UPLOAD -> SignUpAction.Gallery

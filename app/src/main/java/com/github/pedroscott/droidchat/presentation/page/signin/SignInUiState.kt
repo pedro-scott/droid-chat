@@ -10,5 +10,6 @@ data class SignInUiState(
     val email: String = "",
     val emailError: StringResource? = null,
     val password: String = "",
-    val passwordError: StringResource? = null
+    val passwordError: StringResource? = null,
+    val errorMessage: StringResource? = null
 )

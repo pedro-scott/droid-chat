@@ -2,6 +2,8 @@ package com.github.pedroscott.droidchat.presentation.page.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.pedroscott.droidchat.domain.entity.error.AppError
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,9 +24,29 @@ abstract class ChatViewModel<UiState, Action>(initUiState: UiState) : ViewModel(
         _uiState.update { it.action() }
     }
 
-    protected fun emitAction(action: Action) {
+    protected fun sendAction(action: Action) {
         viewModelScope.launch {
             _action.send(action)
+        }
+    }
+
+    protected fun <T> executeAsync(
+        block: suspend CoroutineScope.() -> Result<T>,
+        onLoading: (Boolean) -> Unit,
+        onSuccess: (T) -> Unit,
+        onError: (AppError?) -> Unit
+    ) {
+        viewModelScope.launch {
+            onLoading(true)
+            block()
+                .onSuccess {
+                    onLoading(false)
+                    onSuccess(it)
+                }
+                .onFailure {
+                    onLoading(false)
+                    onError(it as? AppError)
+                }
         }
     }
 }
