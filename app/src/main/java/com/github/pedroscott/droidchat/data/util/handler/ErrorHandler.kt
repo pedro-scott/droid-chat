@@ -1,10 +1,10 @@
-package com.github.pedroscott.droidchat.data.handler
+package com.github.pedroscott.droidchat.data.util.handler
 
 import com.github.pedroscott.droidchat.domain.entity.error.AppError
 import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.TimeoutCancellationException
 import javax.inject.Inject
 
 interface ErrorHandler {
@@ -16,7 +16,7 @@ class ErrorHandlerImpl @Inject constructor() : ErrorHandler {
     override suspend fun getAppError(e: Throwable): AppError =
         when (e) {
             is ClientRequestException -> e.getAppError()
-            is TimeoutCancellationException -> AppError.Api.Timeout
+            is HttpRequestTimeoutException -> AppError.Api.Timeout
             else -> AppError.Common.Unknown(e.message)
         }
 

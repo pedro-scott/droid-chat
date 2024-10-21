@@ -1,10 +1,12 @@
 package com.github.pedroscott.droidchat.presentation.page.signup
 
 import android.net.Uri
-import androidx.lifecycle.viewModelScope
 import com.github.pedroscott.droidchat.R
+import com.github.pedroscott.droidchat.domain.entity.error.AppError
 import com.github.pedroscott.droidchat.domain.entity.validation.DefaultValidationResult
 import com.github.pedroscott.droidchat.domain.entity.validation.PasswordValidationResult
+import com.github.pedroscott.droidchat.domain.usecase.signup.SignUpUseCase
+import com.github.pedroscott.droidchat.domain.usecase.signup.UploadProfileImageUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidatePasswordUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidationEmptinessUseCase
@@ -15,15 +17,15 @@ import com.github.pedroscott.droidchat.presentation.util.extension.getEmailError
 import com.github.pedroscott.droidchat.presentation.util.extension.getEmptinessErrorMessage
 import com.github.pedroscott.droidchat.presentation.util.extension.getPasswordErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val validateEmptiness: ValidationEmptinessUseCase,
     private val validateEmail: ValidateEmailUseCase,
-    private val validatePassword: ValidatePasswordUseCase
+    private val validatePassword: ValidatePasswordUseCase,
+    private val uploadProfileImage: UploadProfileImageUseCase,
+    private val signUp: SignUpUseCase
 ) : ChatViewModel<SignUpUiState, SignUpAction>(
     initUiState = SignUpUiState()
 ) {
@@ -118,12 +120,14 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onButtonClick() {
-        // TODO
-        viewModelScope.launch {
-            updateUiState { copy(isButtonLoading = true) }
-            delay(2000L)
-            updateUiState { copy(isButtonLoading = false) }
-        }
+        uiState.value.profileImagePath?.let { imagePath ->
+            executeAsync(
+                block = { uploadProfileImage(imagePath) },
+                onLoading = { updateUiState { copy(isButtonLoading = it) } },
+                onSuccess = ::doSignUp,
+                onError = ::showErrorDialog
+            )
+        } ?: doSignUp()
     }
 
     fun onAddImageClick() {
@@ -144,12 +148,17 @@ class SignUpViewModel @Inject constructor(
         updateUiState { copy(showAddImageOptions = false) }
     }
 
-    fun setProfileImage(uri: Uri?) {
+    fun setProfileImage(uri: Uri?, path: String?) {
         updateUiState {
             copy(
-                profileImage = if (profileImage != null && uri == null) profileImage else uri
+                profileImageUri = if (profileImageUri != null && uri == null) profileImageUri else uri,
+                profileImagePath = if (profileImagePath != null && path == null) profileImagePath else path
             )
         }
+    }
+
+    fun clearError() {
+        updateUiState { copy(errorMessage = null) }
     }
 
     private fun updateButtonState() {
@@ -175,6 +184,39 @@ class SignUpViewModel @Inject constructor(
             copy(
                 passwordInfo = if (passwordsMatch) matchMessage else null,
                 confirmationInfo = if (passwordsMatch) matchMessage else null
+            )
+        }
+    }
+
+    private fun doSignUp(imageId: String? = null) {
+        executeAsync(
+            block = {
+                with(uiState.value) {
+                    signUp(
+                        SignUpUseCase.Params(
+                            email = email,
+                            password = password,
+                            firstName = firstName,
+                            lastName = lastName,
+                            profilePictureId = imageId
+                        )
+                    )
+                }
+            },
+            onLoading = { updateUiState { copy(isButtonLoading = it) } },
+            onSuccess = { /* TODO */ },
+            onError = ::showErrorDialog
+        )
+    }
+
+    private fun showErrorDialog(appError: AppError?) {
+        updateUiState {
+            copy(
+                errorMessage = StringResource(
+                    if (appError is AppError.Api.Conflict)
+                        R.string.error_message_user_with_username_already_exists
+                    else R.string.common_generic_error_message
+                )
             )
         }
     }

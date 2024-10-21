@@ -1,7 +1,7 @@
 package com.github.pedroscott.droidchat.di
 
 import com.github.pedroscott.droidchat.BuildConfig
-import com.github.pedroscott.droidchat.data.handler.ErrorHandler
+import com.github.pedroscott.droidchat.data.util.handler.ErrorHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

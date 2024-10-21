@@ -2,6 +2,10 @@ package com.github.pedroscott.droidchat.di
 
 import com.github.pedroscott.droidchat.domain.usecase.signin.SignInUseCase
 import com.github.pedroscott.droidchat.domain.usecase.signin.SignInUseCaseImpl
+import com.github.pedroscott.droidchat.domain.usecase.signup.SignUpUseCase
+import com.github.pedroscott.droidchat.domain.usecase.signup.SignUpUseCaseImpl
+import com.github.pedroscott.droidchat.domain.usecase.signup.UploadProfileImageUseCase
+import com.github.pedroscott.droidchat.domain.usecase.signup.UploadProfileImageUseCaseImpl
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCase
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidateEmailUseCaseImpl
 import com.github.pedroscott.droidchat.domain.usecase.validation.ValidatePasswordUseCase
@@ -33,4 +37,12 @@ interface UseCaseModule {
     @Binds
     @ViewModelScoped
     fun bindSignInUseCase(impl: SignInUseCaseImpl): SignInUseCase
+
+    @Binds
+    @ViewModelScoped
+    fun bindUploadProfileImageUseCase(impl: UploadProfileImageUseCaseImpl): UploadProfileImageUseCase
+
+    @Binds
+    @ViewModelScoped
+    fun bindSignUpUseCase(impl: SignUpUseCaseImpl): SignUpUseCase
 }

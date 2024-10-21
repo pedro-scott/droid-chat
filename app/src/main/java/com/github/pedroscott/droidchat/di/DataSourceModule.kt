@@ -4,6 +4,8 @@ import com.github.pedroscott.droidchat.data.datasource.AuthDataSource
 import com.github.pedroscott.droidchat.data.datasource.AuthDataSourceRemote
 import com.github.pedroscott.droidchat.data.datasource.PreferencesDataSource
 import com.github.pedroscott.droidchat.data.datasource.PreferencesDataSourceLocal
+import com.github.pedroscott.droidchat.data.datasource.UserDataSource
+import com.github.pedroscott.droidchat.data.datasource.UserDataSourceRemote
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,4 +23,8 @@ interface DataSourceModule {
     @Binds
     @ViewModelScoped
     fun bindPreferencesDataSource(impl: PreferencesDataSourceLocal): PreferencesDataSource
+
+    @Binds
+    @ViewModelScoped
+    fun bindUserDataSource(impl: UserDataSourceRemote): UserDataSource
 }

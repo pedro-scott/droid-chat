@@ -8,7 +8,8 @@ import com.github.pedroscott.droidchat.presentation.model.StringResource
 data class SignUpUiState(
     val isButtonLoading: Boolean = false,
     val isButtonEnabled: Boolean = false,
-    val profileImage: Uri? = null,
+    val profileImageUri: Uri? = null,
+    val profileImagePath: String? = null,
     val firstName: String = "",
     val firstNameError: StringResource? = null,
     val lastName: String = "",
@@ -21,5 +22,6 @@ data class SignUpUiState(
     val confirmation: String = "",
     val confirmationInfo: StringResource? = null,
     val confirmationError: StringResource? = null,
-    val showAddImageOptions: Boolean = false
+    val showAddImageOptions: Boolean = false,
+    val errorMessage: StringResource? = null
 )

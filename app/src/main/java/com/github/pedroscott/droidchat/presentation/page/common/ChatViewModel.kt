@@ -32,9 +32,9 @@ abstract class ChatViewModel<UiState, Action>(initUiState: UiState) : ViewModel(
 
     protected fun <T> executeAsync(
         block: suspend CoroutineScope.() -> Result<T>,
-        onLoading: (Boolean) -> Unit,
-        onSuccess: (T) -> Unit,
-        onError: (AppError?) -> Unit
+        onLoading: (Boolean) -> Unit = {},
+        onSuccess: (T) -> Unit = {},
+        onError: (AppError?) -> Unit = {}
     ) {
         viewModelScope.launch {
             onLoading(true)
