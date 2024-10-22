@@ -25,8 +25,10 @@ Este projeto faz parte do [CAMP 2.0](https://github.com/douglasramalho/chat-app/
 - **Jetpack Compose**
 - **Jetpack DataStore**
 - **Jetpack Navigation**
+- **Junit 5**
 - **Kotlin**
 - **Ktor**
+- **MockK**
 - **Serialization**
 
 ## 📢 Contato
