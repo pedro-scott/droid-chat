@@ -11,7 +11,7 @@ espresso = "3.6.1"
 firebase-bom = "33.4.0"
 hilt-android = "2.52"
 hilt-navigation = "1.2.0"
-junit = "4.13.2"
+junit = "5.11.2"
 junit-android = "1.2.1"
 jwtdecode = "2.0.2"
 kotlin = "2.0.21"
@@ -20,6 +20,7 @@ kotlinx-serialization = "1.7.3"
 ksp = "2.0.21-1.0.25"
 ktor = "3.0.0"
 lifecycle = "2.8.6"
+mockk = "1.13.13"
 navigation = "2.8.3"
 protobuf = "4.28.2"
 
@@ -78,7 +79,11 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit-android" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-junit = { module = "junit:junit", version.ref = "junit" }
+
+# Unit Test
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
 [bundles]
 core = [
@@ -97,6 +102,7 @@ ktor = [
     "ktor-client-resources", "ktor-client-websockets", "ktor-serialization-kotlinx-json"
 ]
 others = ["accompanist-permissions", "coil-compose", "jwtdecode", "protobuf-javalite"]
+unit-test = ["junit", "kotlinx-coroutines-test", "mockk-android"]
 android-test = ["androidx-espresso-core", "androidx-junit", "androidx-ui-test-junit4"]
 
 [plugins]
